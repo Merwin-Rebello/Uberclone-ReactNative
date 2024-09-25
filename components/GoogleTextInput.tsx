@@ -4,7 +4,7 @@ import { GoogleInputProps } from '@/types/type'
 
 const GoogleTextInput = ({
     icon,
-    initalLocation,
+    initialLocation,
     containerStyle,
     textInputBackgroundColor,
     handlePress

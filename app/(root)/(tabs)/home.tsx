@@ -1,16 +1,29 @@
 import GoogleTextInput from '@/components/GoogleTextInput'
+import * as Location from 'expo-location'
+import Map from '@/components/Map'
 import RideCard from '@/components/RideCard'
 import { icons, images } from '@/constants'
+import { useLocationStore } from '@/store'
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
 import { Link } from 'expo-router'
+import { useEffect, useState } from 'react'
 import {   ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Page() {
+
+  const { setUserLocation , setDestinationLocation} = useLocationStore();
   const { user } = useUser()
   const loading = false;
+  const [hasPremission , setPermission] = useState(false);
   const handleSignOut =() => {}
   const handleDestinationPress=()=>{}
+  useEffect(()=>{
+ const requestLocation = async () =>{
+   let { status } = await Location.requestForegroundPermissionsAsync();
+ };
+ requestLocation();
+  },[])
      const recentRides =[
       {
           "ride_id": "1",
@@ -155,6 +168,17 @@ export default function Page() {
          containerStyle="bg-white shadow-md shadow-neutral-300"
          handlePress={handleDestinationPress}
          />
+         <>
+          <Text className='text-xl font-JakartaBold mt-5 mb-3'>
+            Your Current Location
+          </Text >
+          <View className='flex flex-row items-center bg-transparent h-[300px]'>
+            <Map/>
+          </View>
+         </>
+         <Text className='text-xl font-JakartaBold mt-5 mb-3'>
+           Recent Rides
+          </Text >
         </>
       )}
       />
